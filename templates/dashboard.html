@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header -->
+ 
+<div class="d-flex justify-content-between align-items-center page-header">
+  <h3 class="fw-bold">Welcome, {{ student.name }}</h3>
+  <div>
+    <a href="{{ url_for('profile') }}" class="btn btn-outline-primary btn-sm px-3">Profile</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm px-3">Logout</a>
+  </div>
+</div>
+
+
+
+<!-- Academic Stats -->
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="stat-card shadow-sm text-center p-4 rounded-4">
+      <h6 class="text-muted">GPA</h6>
+      <h2 class="text-primary fw-bold">{{ student.gpa }}</h2>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="stat-card shadow-sm text-center p-4 rounded-4">
+      <h6 class="text-muted">Credit Hours</h6>
+      <h2 class="fw-bold">{{ student.credit_hours }}</h2>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="stat-card shadow-sm text-center p-4 rounded-4">
+      <h6 class="text-muted">Current Semester</h6>
+      <h2 class="fw-bold">{{ student.semester }}</h2>
+    </div>
+  </div>
+</div>
+
+<!-- Questionnaire Form -->
+<div class="card shadow-sm rounded-4 mt-5 p-4" style="max-height: 60vh; overflow-y: auto;">
+
+  <h4 class="fw-bold">Major Course Questionnaire</h4>
+  <p class="text-muted">Help us understand your background and interests so we can suggest the best major for you.</p>
+
+  <form method="POST" action="{{ url_for('analyze') }}" class="mt-3">
+
+    <!-- SECTION 1: ACADEMIC BACKGROUND -->
+    <h5 class="section-title mt-4">1. Academic Background</h5>
+    <hr class="mb-3">
+
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label class="form-label">Current CGPA</label>
+        <input type="number" step="0.01" name="cgpa" class="form-control" min="0" max="4" required>
+      </div>
+
+      <div class="col-md-8">
+        <label class="form-label">Foundation/Diploma Background</label>
+        <input type="text" name="background" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Best Performing Courses</label>
+      <input type="text" name="best_courses" class="form-control" placeholder="e.g., Programming, Data Science">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Most Difficult Subjects</label>
+      <input type="text" name="difficult_courses" class="form-control" placeholder="e.g., Networking">
+    </div>
+
+    <div class="mb-3" style="max-width: 200px;">
+      <label class="form-label">Confidence in Mathematics (1–5)</label>
+      <input type="number" name="confidence_math" class="form-control" min="1" max="5" required>
+    </div>
+
+
+    <!-- SECTION 2: INTERESTS -->
+    <h5 class="section-title mt-4">2. Interests</h5>
+    <hr class="mb-3">
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Topics that interest you</label><br>
+      <div class="d-flex flex-wrap gap-3">
+        {% for interest in ['Artificial Intelligence', 'Cybersecurity', 'Software Engineering', 'Business Analytics', 'Data Science', 'Networking'] %}
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="interests" value="{{ interest }}">
+          <label class="form-check-label">{{ interest }}</label>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Tasks you enjoy</label>
+      <div class="p-2 ps-3">
+        {% for task in ['Logical problem-solving', 'Analyzing data', 'Creative design', 'Managing projects or teams', 'Research and experimentation'] %}
+        <div class="form-check mb-1">
+          <input class="form-check-input" type="checkbox" name="tasks" value="{{ task }}">
+          <label class="form-check-label">{{ task }}</label>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Preferred Learning Style</label><br>
+      {% for style in ['Visual', 'Auditory', 'Reading/Writing', 'Kinesthetic'] %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="learning_style" value="{{ style }}">
+        <label class="form-check-label">{{ style }}</label>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Work Preference</label><br>
+      <div class="d-flex gap-3">
+        <div><input type="radio" name="work_preference" value="Individual"> Individual</div>
+        <div><input type="radio" name="work_preference" value="Team-based"> Team-based</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Problem-solving approach</label><br>
+      {% for approach in ['Step-by-step analysis', 'Creative brainstorming', 'Trial and error', 'Collaboration and discussion'] %}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="problem_solving" value="{{ approach }}">
+        <label class="form-check-label">{{ approach }}</label>
+      </div>
+      {% endfor %}
+    </div>
+
+
+    <!-- SECTION 3: CAREER GOALS -->
+    <h5 class="section-title mt-4">3. Career Goals</h5>
+    <hr class="mb-3">
+
+    <div class="mb-3">
+      <label class="form-label">Career Goal</label>
+      <input type="text" name="career_goal" class="form-control" placeholder="e.g., Data Scientist">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Industry Preference</label>
+      <input type="text" name="industry" class="form-control" placeholder="e.g., IT, Business">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Preferred Role Type</label><br>
+      <div class="d-flex gap-3">
+        <div><input type="radio" name="role_type" value="Technical"> Technical</div>
+        <div><input type="radio" name="role_type" value="Management"> Management</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Further Studies? (Master/PhD)</label><br>
+      <div class="d-flex gap-3">
+        <div><input type="radio" name="further_study" value="Yes"> Yes</div>
+        <div><input type="radio" name="further_study" value="No"> No</div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Career Path Preference</label><br>
+      <div class="d-flex gap-3">
+        <div><input type="radio" name="career_path" value="Research"> Research</div>
+        <div><input type="radio" name="career_path" value="Industry"> Industry</div>
+      </div>
+    </div>
+
+    <div class="mb-4" style="max-width: 200px;">
+      <label class="form-label">Importance of Job Demand (1–5)</label>
+      <input type="number" name="job_demand" class="form-control" min="1" max="5">
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg mt-3 px-4">
+      Analyze & Suggest Major
+    </button>
+
+  </form>
+</div>
+
+{% endblock %}

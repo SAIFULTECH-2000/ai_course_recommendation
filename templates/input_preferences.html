@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h4>Welcome, Muhammad Shafril</h4>
+<p class="text-muted">Your academic dashboard and study preference settings.</p>
+
+<!-- ============================= -->
+<!--   KEY ACADEMIC METRICS        -->
+<!-- ============================= -->
+<div class="row mt-4">
+
+  <div class="col-md-4">
+    <div class="card p-3 shadow-sm text-center">
+      <h6 class="text-muted">GPA</h6>
+      <h2 class="fw-bold">{{ gpa or '3.78' }}</h2>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card p-3 shadow-sm text-center">
+      <h6 class="text-muted">Credit Hours</h6>
+      <h2>{{ credit_hours or '92' }}</h2>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card p-3 shadow-sm text-center">
+      <h6 class="text-muted">Current Semester</h6>
+      <h2>{{ semester or '6' }}</h2>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ============================= -->
+<!--    INPUT PREFERENCES FORM     -->
+<!-- ============================= -->
+<h4 class="mt-5">Input Preferences</h4>
+<p class="text-muted">Help us understand your interests to improve recommendations.</p>
+
+<form method="POST" action="{{ url_for('save_preferences') }}" class="mt-3">
+
+  <!-- INTEREST CHECKBOXES -->
+  <label class="form-label">Select your areas of interest:</label><br>
+
+  {% set interests = [
+    'Artificial Intelligence',
+    'Software Development',
+    'Networking',
+    'Business'
+  ] %}
+
+  {% for item in interests %}
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" name="interests" value="{{ item }}">
+    <label class="form-check-label">{{ item }}</label>
+  </div>
+  {% endfor %}
+
+  <!-- CAREER ASPIRATION -->
+  <label class="form-label mt-3">What are your career aspirations?</label>
+  <select class="form-select w-50" name="career_aspiration">
+    <option selected>Project-Based Learning</option>
+    <option>Industry</option>
+    <option>Research</option>
+    <option>Entrepreneurship</option>
+    <option>Academia</option>
+  </select>
+
+  <!-- SUBMIT BUTTON -->
+  <button class="btn btn-primary mt-4">Submit Preferences</button>
+
+</form>
+
+{% endblock %}

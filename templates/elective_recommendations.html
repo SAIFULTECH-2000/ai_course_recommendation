@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center page-header">
+  <h3 class="fw-bold">🎓 Elective Recommendations</h3>
+  <div>
+    <a href="{{ url_for('profile') }}" class="btn btn-outline-primary btn-sm px-3">Profile</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm px-3">Logout</a>
+  </div>
+</div>
+
+
+<div class="mb-4">
+  <p class="text-muted">Personalized suggestions matched to your strengths and interests.</p>
+</div>
+
+{% if suggestion %}
+<div class="alert alert-primary shadow-sm p-4 rounded-3">
+  <h5 class="mb-2">
+    <strong>Recommended Major:</strong> 
+    <span class="text-dark">{{ suggestion }}</span>
+  </h5>
+
+  {% if suggested_subjects %}
+    <h6 class="mt-3">Suggested Subjects:</h6>
+    <ul class="small">
+      {% for subject in suggested_subjects %}
+        <li>{{ subject }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <p class="mt-3 text-muted">This recommendation is based on your skills, preferences, and goals.</p>
+</div>
+{% endif %}
+
+<!-- Filter Panel -->
+<div class="card p-4 shadow-sm rounded-3 mb-4">
+  <h5 class="mb-3 fw-semibold">Filter Electives</h5>
+
+  <form method="GET" action="{{ url_for('electives') }}" class="row g-4">
+    <div class="col-md-3">
+      <label class="form-label fw-medium">Difficulty</label>
+      <select name="difficulty" class="form-select">
+        <option value="">All</option>
+        <option>Easy</option>
+        <option>Moderate</option>
+        <option>Advanced</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label fw-medium">Semester</label>
+      <select name="semester" class="form-select">
+        {% for s in range(1, 9) %}
+          <option>{{ s }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label fw-medium">Course Type</label>
+      <select name="type" class="form-select">
+        <option value="">Any</option>
+        <option>Lab-based</option>
+        <option>Lecture-based</option>
+        <option>Project-based</option>
+      </select>
+    </div>
+
+    <div class="col-md-3 d-flex align-items-end">
+      <button class="btn btn-primary w-100 py-2">Apply Filters</button>
+    </div>
+  </form>
+</div>
+
+<!-- Recommended Courses -->
+<div class="row">
+  {% for field in field_details %}
+  <div class="col-md-4">
+    <div class="card shadow-sm border-0 p-3 mb-4 h-100 rounded-3">
+      <h5 class="fw-bold">{{ field.field_name }}</h5>
+      <p class="text-muted small">{{ field.description }}</p>
+      <div class="mb-2">
+        <span class="badge bg-primary">{{ field.difficulty }}</span>
+        <span class="badge bg-secondary">{{ field.category }}</span>
+      </div>
+      <p class="small mt-3">
+        <strong>Why recommended:</strong> {{ field.why_recommended }}
+      </p>
+    {% if field.id in user_plan_ids %}
+    <button class="btn btn-success w-100 mt-auto plan-btn"
+            data-field-id="{{ field.id }}"
+            data-action="remove">
+        ✓ Added to Study Plan (Remove?)
+    </button>
+{% else %}
+    <button class="btn btn-outline-primary w-100 mt-auto plan-btn"
+            data-field-id="{{ field.id }}"
+            data-action="add">
+        Add to Study Plan
+    </button>
+{% endif %}
+
+
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".plan-btn").forEach(btn => {
+        btn.addEventListener("click", async function () {
+            const fieldId = this.dataset.fieldId;
+            const action = this.dataset.action;
+            const url = action === "add"
+                ? `/add_to_plan/${fieldId}`
+                : `/remove_from_plan/${fieldId}`;
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            });
+
+            if (response.ok) {
+                if (action === "add") {
+                    this.classList.remove("btn-outline-primary");
+                    this.classList.add("btn-success");
+                    this.textContent = "✓ Added to Study Plan (Remove?)";
+                    this.dataset.action = "remove";
+                } else {
+                    this.classList.remove("btn-success");
+                    this.classList.add("btn-outline-primary");
+                    this.textContent = "Add to Study Plan";
+                    this.dataset.action = "add";
+                }
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

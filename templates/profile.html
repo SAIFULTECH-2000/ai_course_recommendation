@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold text-primary">Profile</h4>
+    <a href="{{ url_for('edit_profile') }}" class="btn btn-primary btn-sm rounded-pill px-4">Edit Profile</a>
+</div>
+
+<div class="row g-4">
+
+    <!-- Profile Card -->
+    <div class="col-md-4">
+        <div class="card shadow-sm rounded-4 p-4 text-center border-0">
+            <img 
+                src="https://api.dicebear.com/9.x/initials/svg?seed={{ student.name }}" 
+                alt="Profile Picture" 
+                class="rounded-circle mb-3 border border-2 border-primary"
+                style="width:120px; height:120px; object-fit:cover;"
+            >
+            <h5 class="fw-bold">{{ student.name }}</h5>
+            <p class="text-muted mb-1">{{ student.email or '-' }}</p>
+            <p class="text-muted">{{ student.program or '-' }} | Semester {{ student.semester }}</p>
+        </div>
+    </div>
+
+    <!-- Details Card -->
+    <div class="col-md-8">
+        <div class="card shadow-sm rounded-4 p-4 border-0">
+
+            <!-- Academic Information -->
+            <h5 class="fw-semibold mb-3 text-secondary">Academic Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <i class="bi bi-mortarboard-fill text-primary me-2"></i>
+                    <strong>GPA:</strong> {{ student.gpa or '-' }}
+                </div>
+                <div class="col-md-4">
+                    <i class="bi bi-journal-bookmark-fill text-primary me-2"></i>
+                    <strong>Credit Hours:</strong> {{ student.credit_hours or '-' }}
+                </div>
+                <div class="col-md-4">
+                    <i class="bi bi-calendar-check-fill text-primary me-2"></i>
+                    <strong>Semester:</strong> {{ student.semester or '-' }}
+                </div>
+            </div>
+
+            <!-- Semester-wise CGPA Table -->
+<div class="table-responsive mt-3">
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Semester</th>
+                <th>CGPA</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sem, gpa in gpa_trend.items() %}
+                <tr>
+                    <td>{{ sem }}</td>
+                    <td>{{ gpa }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+            <hr>
+
+            <!-- Personal Information -->
+            <h5 class="fw-semibold mb-3 text-secondary">Personal Information</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Full Name:</strong> {{ student.name or '-' }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Email:</strong> {{ student.email or '-' }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Program:</strong> {{ student.program or '-' }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Faculty:</strong> {{ student.faculty or '-' }}
+                </div>
+            </div>
+            <hr>
+
+            <!-- Preferences -->
+            <h5 class="fw-semibold mb-3 text-secondary">Preferences</h5>
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <i class="bi bi-lightning-fill text-primary me-2"></i>
+                    <strong>Learning Style:</strong> {{ student.learning_style or "Not Set" }}
+                </div>
+                <div class="col-md-6">
+                    <i class="bi bi-briefcase-fill text-primary me-2"></i>
+                    <strong>Work Preference:</strong> {{ student.work_preference or "Not Set" }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>Career Goal:</strong> {{ student.career_goal or "Not Set" }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Industry Interest:</strong> {{ student.industry or "Not Set" }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

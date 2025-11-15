@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold text-primary">Edit Profile</h4>
+    <a href="{{ url_for('profile') }}" class="btn btn-outline-secondary btn-sm rounded-pill px-4">
+        Back to Profile
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm rounded-4 p-4 border-0">
+
+            <form method="POST" action="{{ url_for('edit_profile') }}">
+
+          
+
+                <!-- Full Name -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Full Name</label>
+                    <input type="text" name="name" class="form-control" value="{{ student.username }}" required>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Email</label>
+                    <input type="email" name="email" class="form-control" value="{{ student.email }}" required>
+                </div>
+
+                <!-- Program & Faculty -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Program</label>
+                        <input type="text" name="program" class="form-control" value="{{ student.program }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Faculty</label>
+                        <input type="text" name="faculty" class="form-control" value="{{ student.faculty }}">
+                    </div>
+                </div>
+
+                <!-- Academic Details -->
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">GPA</label>
+                        <input type="text" name="gpa" class="form-control" value="{{ student.gpa }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Credit Hours</label>
+                        <input type="number" name="credit_hours" class="form-control" value="{{ student.credit_hours }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Semester</label>
+                        <input type="number" name="semester" class="form-control" value="{{ student.semester }}">
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Preferences -->
+                <h5 class="fw-semibold text-secondary mb-3">Preferences</h5>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Learning Style</label>
+                    <input type="text" name="learning_style" class="form-control" value="{{ student.learning_style }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Work Preference</label>
+                    <input type="text" name="work_preference" class="form-control" value="{{ student.work_preference }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Career Goal</label>
+                    <input type="text" name="career_goal" class="form-control" value="{{ student.career_goal }}">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Industry Interest</label>
+                    <input type="text" name="industry" class="form-control" value="{{ student.industry }}">
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">
+                        Save Changes
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
