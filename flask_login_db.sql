@@ -32,7 +32,7 @@ CREATE TABLE `course` (
   `course_name` varchar(255) NOT NULL,
   `learning_outcome` text,
   `track_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -45,7 +45,7 @@ CREATE TABLE `courses` (
   `track_id` int NOT NULL,
   `course_name` varchar(255) NOT NULL,
   `learning_outcome` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Dumping data for table `courses`
@@ -79,7 +79,7 @@ CREATE TABLE `questionnaires` (
   `confidence` int DEFAULT NULL,
   `work_preference` varchar(50) DEFAULT NULL,
   `suggested_major` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 --
 -- Dumping data for table `questionnaires`
@@ -112,7 +112,7 @@ CREATE TABLE `relevant_field_details` (
   `category` varchar(255) DEFAULT NULL,
   `why_recommended` text,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Dumping data for table `relevant_field_details`
@@ -141,7 +141,7 @@ CREATE TABLE `student_gpa_trend` (
   `student_id` int NOT NULL,
   `semester` varchar(10) NOT NULL,
   `gpa` decimal(3,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Dumping data for table `student_gpa_trend`
@@ -186,7 +186,7 @@ CREATE TABLE `track` (
   `id` int NOT NULL,
   `track_name` varchar(255) NOT NULL,
   `relevant_fields` json DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -199,7 +199,7 @@ CREATE TABLE `tracks` (
   `track_name` varchar(255) NOT NULL,
   `relevant_fields` json NOT NULL,
   `whyrecommand` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Dumping data for table `tracks`
@@ -225,7 +225,7 @@ CREATE TABLE `track_result` (
   `result` enum('A+','A','A-','B+','B','B-','C+','C','C-','D','F') DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -242,7 +242,7 @@ CREATE TABLE `user` (
   `work_preference` varchar(255) DEFAULT NULL,
   `career_goal` varchar(255) DEFAULT NULL,
   `industry` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 -- --------------------------------------------------------
 
@@ -264,7 +264,7 @@ CREATE TABLE `users` (
   `gpa` float DEFAULT NULL,
   `credit_hours` int DEFAULT NULL,
   `semester` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Dumping data for table `users`
@@ -284,7 +284,7 @@ CREATE TABLE `user_tracks` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` int NOT NULL,
   `track_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Dumping data for table `user_tracks`
