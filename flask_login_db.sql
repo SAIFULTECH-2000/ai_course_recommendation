@@ -167,7 +167,7 @@ CREATE TABLE `study_plan` (
   `user_id` int NOT NULL,
   `field_id` int NOT NULL,
   `created_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ;
 
 --
 -- Dumping data for table `study_plan`
